@@ -7,6 +7,7 @@ const Navbar=()=>{
         <li><a><NavLink to={'menu'}>Menu</NavLink></a></li>
         <li><a><NavLink to={'order'}>Order Food</NavLink></a></li>
         <li><a><NavLink to={'login'}>Login</NavLink></a></li>
+        <li><a><NavLink to={'signup'}>signUp</NavLink></a></li>
         <li><a>Item 3</a></li>
 
   </>
