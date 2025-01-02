@@ -3,11 +3,11 @@ import MenuItems from "../../../shared/MenuItem/menuItem";
 import UseMenu from "../../../hooks/useMenu";
 
 const PopularMenu = () => {
-  const [menu, loading] = UseMenu(); // Destructure menu and loading state
-  const popular = menu ? menu.filter((item) => item.category === "popular") : []; // Fallback for undefined menu
+  const [menu, loading] = UseMenu(); 
+  const popular = menu ? menu.filter((item) => item.category === "popular") : []; 
 
   if (loading) {
-    return <p>Loading...</p>; // Show loading state while data is being fetched
+    return <p>Loading...</p>; 
   }
 
   return (
