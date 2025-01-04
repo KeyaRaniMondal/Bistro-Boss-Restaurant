@@ -1,10 +1,13 @@
 
-import axios from "axios";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useCart from "../../hooks/useCart";
 
 const FoodCard = ({item}) => {
     const {name, image, price, recipe,_id} = item;
     const {user}=useAuth()
+    const axiosSecure=useAxiosSecure()
+    const [,refetch]=useCart()
     const handleAddToCart=food=>{
         if(user &&user.email)
        { 
@@ -16,7 +19,7 @@ const FoodCard = ({item}) => {
             image,
             price
         }
-        axios.post('http://localhost:5000/carts',cartItem)
+        axiosSecure.post('/carts',cartItem)
         .then(res=>{
             console.log(res.data)
             if(res.data.insertedId)
@@ -24,6 +27,7 @@ const FoodCard = ({item}) => {
                 alert('food added to cart')
             }
         })
+        refetch()
     }
     else{
         //here i need to do complete error handleing and user validation
