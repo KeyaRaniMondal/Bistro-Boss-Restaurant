@@ -1,9 +1,34 @@
 
+import axios from "axios";
+import useAuth from "../../hooks/useAuth";
 
 const FoodCard = ({item}) => {
-    const {name, image, price, recipe} = item;
+    const {name, image, price, recipe,_id} = item;
+    const {user}=useAuth()
     const handleAddToCart=food=>{
-        console.log(food)
+        if(user &&user.email)
+       { 
+        console.log(user.email,food)
+        const cartItem={
+            menuId:_id,
+            email:user.email,
+            name,
+            image,
+            price
+        }
+        axios.post('http://localhost:5000/carts',cartItem)
+        .then(res=>{
+            console.log(res.data)
+            if(res.data.insertedId)
+            {
+                alert('food added to cart')
+            }
+        })
+    }
+    else{
+        //here i need to do complete error handleing and user validation
+        alert("login first")
+    }
     }
     return (
         <div className="card w-96 bg-base-100 shadow-xl">
