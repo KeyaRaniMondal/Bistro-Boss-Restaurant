@@ -6,11 +6,12 @@ import Home from "../pages/Home/Home/Home";
 import Menu from "../pages/Menu/Menu/Menu";
 import Order from "../pages/Order/Order/Order";
 import Login from "../pages/Login/Login";
-import SignUp from "../pages/SignUp/SignUp";
 import PrivateRoute from "./PrivateRoute";
 import Secret from "../pages/Shared/Secret/Secret";
 import Dashboard from "../Layout/dashboard";
 import Cart from "../pages/dashboard/Dashboard/cart/cart";
+import SignUp from "../Pages/signUp/signup";
+import AllUser from "../pages/dashboard/AllUsers/allUser";
 
 
   export const router = createBrowserRouter([
@@ -46,11 +47,17 @@ import Cart from "../pages/dashboard/Dashboard/cart/cart";
     },
     {
       path:'dashboard',
-      element:<Dashboard></Dashboard>,
+      element:<PrivateRoute>
+        <Dashboard></Dashboard>
+      </PrivateRoute>,
       children:[
         {
           path:'cart',
           element:<Cart></Cart>
+        },
+        {
+          path:'users',
+          element:<AllUser></AllUser>
         }
       ]
     }

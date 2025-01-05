@@ -8,11 +8,11 @@ const useCart = () => {
     const { refetch, data: cart = [] } = useQuery({
         queryKey: ["cart", user?.email],
         queryFn: async () => {
-            if (!user?.email) return []; // Avoid running query if email is not available
+            if (!user?.email) return []; 
             const res = await axiosSecure.get(`/carts?email=${user.email}`);
             return res.data;
         },
-        enabled: !!user?.email, // Only fetch if user email is available
+        enabled: !!user?.email,
     });
     return [cart, refetch];
 };
