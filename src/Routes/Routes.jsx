@@ -59,7 +59,7 @@ import AdminRoute from "./adminRoute";
         },
         {
           path:'addItems',
-          element:<AdminRoute><AddItem></AddItem></AdminRoute>
+          element:<AddItem></AddItem>
         },
         {
           path:'users',

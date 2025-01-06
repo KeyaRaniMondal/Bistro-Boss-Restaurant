@@ -19,7 +19,7 @@ const Dashboard=()=>{
                         Admin Home</NavLink>
                 </li>
                 <li>
-                    <NavLink to="/dashboard/addItem">
+                    <NavLink to="/dashboard/addItems">
                         <FaCalendar></FaCalendar>
                         Add Items</NavLink>
                 </li>
