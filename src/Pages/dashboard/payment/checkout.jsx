@@ -2,6 +2,7 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useEffect, useState } from "react";
 import useCart from "../../../hooks/useCart";
+import useAuth from "../../../hooks/useAuth";
 
 const CheckOutForm = () => {
     const stripe = useStripe();
@@ -9,7 +10,8 @@ const CheckOutForm = () => {
     const axiosSecure = useAxiosSecure();
     const [cart] = useCart();
     const [clientSecret, setClientSecret] = useState(null);
-
+    const {user}=useAuth()
+    const [transcationId,setTransactionId]=useState('')
     const totalPrice = cart.reduce((total, item) => total + item.price, 0);
 
     useEffect(() => {
@@ -46,18 +48,35 @@ const CheckOutForm = () => {
             return;
         }
 
-        const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-            payment_method: paymentMethod.id,
-        });
+        // const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+        //     payment_method: paymentMethod.id,
+        // });
 
+        // if (confirmError) {
+        //     console.error('Payment Confirmation Error:', confirmError);
+        // } else if (paymentIntent) {
+        //     console.log('Payment Successful:', paymentIntent);
+        //     // Optionally, show success feedback to the user
+        // }
+        const { error: confirmError, paymentIntent }  = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
+                card: card,
+                billing_details: {
+                    email: user?.email || 'anonymous',
+                    name: user?.displayName || 'anonymous'
+                }
+
+            }
+        })
         if (confirmError) {
             console.error('Payment Confirmation Error:', confirmError);
+            setTransactionId(paymentIntent.id)
         } else if (paymentIntent) {
             console.log('Payment Successful:', paymentIntent);
             // Optionally, show success feedback to the user
         }
     };
-
+    
     return (
         <form onSubmit={handleSubmit}>
             <CardElement
@@ -79,6 +98,9 @@ const CheckOutForm = () => {
             <button className="btn btn-primary" type="submit" disabled={!stripe || !clientSecret}>
                 Pay
             </button>
+            {
+                transcationId&& <p>transactionId:{transcationId}</p>
+            }
         </form>
     );
 };
